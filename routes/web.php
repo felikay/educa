@@ -17,3 +17,7 @@ use App\Http\Controllers\HomeController;
 Route::get('/', function () {
     return view('home');
 });
+
+Route::get('/login_reg', function () {
+    return view('login_reg');
+});
