@@ -58,10 +58,10 @@ class CustomAuthController extends Controller
     {
         if(Auth::check()){
             if(Auth::user()->role== 'student'){
-                return view('student_landing_page');
+                return view('Lecturer_Student_Module.Student.my_classes');
             }
             if(Auth::user()->role== 'lecturer'){
-                return view('lecturer_landing_page');
+                return view('Lecturer_Student_Module.Lecturer.my_classes');
             }
             if(Auth::user()->role== 'admin'){
                 return view('admin_landing_page');

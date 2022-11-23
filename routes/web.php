@@ -24,7 +24,10 @@ Route::get('/login_reg', function () {
 });
 
 Route::get('dashboard', [CustomAuthController::class, 'dashboard']); 
-Route::post( [CustomAuthController::class, 'customLogin'])->name('login.custom'); 
+Route::post( 'customlogin',[CustomAuthController::class, 'customLogin'])->name('login.custom'); 
 Route::get('registration', [CustomAuthController::class, 'registration'])->name('register-user');
-Route::post( [CustomAuthController::class, 'customRegistration'])->name('register.custom'); 
+Route::post( 'customRegistration',[CustomAuthController::class, 'customRegistration'])->name('register.custom'); 
 Route::get('signout', [CustomAuthController::class, 'signOut'])->name('signout');
+
+require_once __DIR__ . '/lec_stud.php';
+

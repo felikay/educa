@@ -1,24 +1,24 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 
 @if(count($errors) > 0 )
-  <div class="alert alert-danger">
+<div class="alert alert-danger">
     @if(count($errors) == 1)
-      <i class="fas fa-times-circle"></i> {{$errors->first()}}
+    <i class="fas fa-times-circle"></i> {{$errors->first()}}
     @else
-      <i class="fas fa-times-circle"></i> @lang('errors.multiple')
+    <i class="fas fa-times-circle"></i> @lang('errors.multiple')
     <ul>
-     @foreach ($errors->all() as $error)
-      <li>{{ $error }}</li>
-     @endforeach
-   </ul>
-   @endif
-  </div>
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+    @endif
+</div>
 @endif
 
 @if (Session::has('success'))
-  <div class="alert alert-success">
+<div class="alert alert-success">
     <i class="fas fa-check-circle"></i> {{ Session::get('success') }}
-  </div>
+</div>
 @endif
 <div class="container" id="container">
     <div class="form-container sign-up-container">
