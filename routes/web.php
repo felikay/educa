@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CustomAuthController;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\MessagesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,3 +35,12 @@ Route::get('/send_mail', function () {
    
     dd("Email is Sent.");
 });
+
+Route::get('dashboard', [CustomAuthController::class, 'dashboard']); 
+Route::post( 'customlogin',[CustomAuthController::class, 'customLogin'])->name('login.custom'); 
+Route::get('registration', [CustomAuthController::class, 'registration'])->name('register-user');
+Route::post( 'customRegistration',[CustomAuthController::class, 'customRegistration'])->name('register.custom'); 
+Route::get('signout', [CustomAuthController::class, 'signOut'])->name('signout');
+
+require_once __DIR__ . '/lec_stud.php';
+
