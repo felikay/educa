@@ -21,3 +21,15 @@ Route::get('/', function () {
 Route::get('/login_reg', function () {
     return view('login_reg');
 });
+
+Route::get('/send_mail', function () {
+   
+    $details = [
+        'title' => 'Mail from Eduka',
+        'body' => 'Hello and welcome to Eduka!'
+    ];
+   
+    \Mail::to('student.laravel01@gmail.com')->send(new \App\Mail\TestMail($details));
+   
+    dd("Email is Sent.");
+});
