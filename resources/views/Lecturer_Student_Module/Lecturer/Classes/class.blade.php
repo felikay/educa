@@ -12,12 +12,12 @@
 <body>
     <div class="pic-area">
         <div class="top-menu">
-            <a href="../my_classes.php">
-                <h2>Advanced Networking</h2>
+            <a href="{{route('Lec_Classes_Select')}}">
+                <h2>{{session('unit_name')}}</h2>
             </a>
             <!-- <i class="las la-bars" > -->
             <div class="credentials">
-                <h3>Phoebe Buffay</h3>
+                <h3><?php echo Auth::user()->name; ?></h3>
             </div>
         </div>
     </div>
@@ -30,21 +30,23 @@
         </ul>
     </div>
 
-    <div class="materialbox">
+    <div class="materialbox"> 
 
+    @foreach($data as $data)
         <div class="material">
             <div class="title">
-                <h4>Topic Name</h4>
+                <h4>{{$data->topic_name}}</h4>
             </div>
             <hr />
 
             <div class="mat-content">
-                <a href=""><i class="las la-link"></i>
-                    Material Name
+                <a href="{{route('viewMatierial',$data->lec_mat_id)}}"><i class="las la-link"></i>
+                    {{$data->material_name}}
                 </a>
             </div>
         </div>
-
+    @endforeach
+                        
     </div>
 </body>
 

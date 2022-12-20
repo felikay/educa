@@ -13,12 +13,12 @@
 <body>
     <div class="pic-area">
         <div class="top-menu">
-            <a href="../my_classes.php">
-                <h2>Advanced Networking</h2>
+            <a href="{{route('Lec_Classes_Select')}}">
+                <h2>{{session('unit_name')}}</h2>
             </a>
             <!-- <i class="las la-bars" > -->
             <div class="credentials">
-                <h3>Phoebe Buffay</h3>
+                <h3><?php echo Auth::user()->name; ?></h3>
             </div>
         </div>
     </div>
@@ -33,13 +33,15 @@
 
     <div class="materialbox">
         <h2>Students</h2>
-        <div class="total"></div>
         <hr />
+        @foreach($data as $data)
         <div class="student">
             <i class="las la-user-alt"></i>
-            <div class="admno">141733</div>
-            <div class="name">Ross Geller</div>
+            <div class="admno">{{$data->id}}</div>
+            <div class="name">{{$data->name}}</div>
         </div>
+        @endforeach
+
 
     </div>
 </body>

@@ -1,3 +1,5 @@
+<? use Illuminate\Support\Facades\Session;
+session_start()?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,12 +16,12 @@
 <body>
 <div class="pic-area">
         <div class="top-menu">
-            <a href="../my_classes.php">
-                <h2>Advanced Networking</h2>
+            <a href="{{route('Lec_Classes_Select')}}">
+                <h2>{{session('unit_name')}}</h2>
             </a>
             <!-- <i class="las la-bars" > -->
             <div class="credentials">
-                <h3>Phoebe Buffay</h3>
+                <h3><?php echo Auth::user()->name; ?></h3>
             </div>
         </div>
     </div>
@@ -38,10 +40,16 @@
         </a>
         <h2 id="Ass-head">Assignments</h2>
         <hr />
+        @foreach ($data as $data)
         <div class="assgn">
-            <a href=""><i class="las la-link"></i>Assignment 1</a>
+            <a href="{{route('Lec_view_submissions',$data->lec_ass_id)}}"><i class="las la-link"></i>{{$data->assignment_name}}</a>
+            <form action="{{ route('lec_delete_assignment') }}" method="post">
+                @csrf
+                <input type="hidden" name="lec_ass_id" value="{{$data->lec_ass_id}}">
             <button type="submit" name="delete" class="del pull-right"><i class="las la-trash-alt"></i></button>
+            </form>
         </div>
+        @endforeach
 
     </div>
     <div class="overlay" id="divOne">
@@ -49,13 +57,8 @@
             <a id="close" href="#"><i class="las la-times"></i></a>
             <div class="content">
                 <div class="container">
-                    <form>
-                        <label for="TopicName">Topic Name</label>
-                        <select class="input" id="TopicName" name="TopicName">
-                            <option value="hide"></option>
-                            <option value="">Topic 1</option>
-                        </select>
-
+                    <form method="post" action="{{ route('create_assignment') }}" enctype="multipart/form-data">
+                        @csrf                       
                         <label for="AssignmentName">Assignment Name</label>
                         <input class="input" type="text" id="AssignmentName" name="AssignmentName">
 
@@ -65,10 +68,12 @@
                         <label for="description">Description</label>
                         <textarea class="input" id="descripition" name="description"></textarea>
 
-                        <label for="File">Upload File</label>
+                        <label for="file">Upload File</label>
                         <div class="file">
-                            <input class="file-input" type="file" id="maerial" name="material">
+                            <input class="file-input" type="file" id="file" name="file">
                         </div>
+
+                        <input type="hidden" name="unit_code" value="1">
 
                         <button id="create-btn" name="create">CREATE</button>
                     </form>

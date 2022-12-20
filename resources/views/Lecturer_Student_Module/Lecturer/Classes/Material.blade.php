@@ -13,12 +13,12 @@
 <body>
     <div class="pic-area">
         <div class="top-menu">
-            <a href="../my_classes.php">
-                <h2>Advanced Networking</h2>
+            <a href="{{route('Lec_Classes_Select')}}">
+                <h2>{{session('unit_name')}}</h2>
             </a>
             <!-- <i class="las la-bars" > -->
             <div class="credentials">
-                <h3>Phoebe Buffay</h3>
+                <h3><?php echo Auth::user()->name; ?></h3>
             </div>
         </div>
     </div>
@@ -32,44 +32,20 @@
     </div>
     <div class="lec-materials">
 
-        <a href="#create-topic">
-            <button>+ CREATE TOPIC</button>
-        </a>
+        <form action="{{ route('upload_lecturer_material') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <label for="TopicID">Topic Name</label>
+            <input class="input" type="text" id="TopicID" name="TopicID">
 
-        <div class="overlay" id="create-topic">
-            <div class="wrapper">
-
-                <a id="close" href="#"><i class="las la-times"></i></a>
-
-                <div class="content">
-                    <div class="container">
-                        <form action="" method="POST">
-                            <label for="TopicName">Topic Name</label>
-                            <input class="input" type="text" name="topic_name" id="topic_name">
-
-                            <button id="create-btn" type="submit" name="submit">CREATE</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <form action="" method="POST" enctype="multipart/form-data">
-            <label for="TopicName">Topic Name</label>
-            <select class="input" id="TopicName" name="TopicName">
-                <option value=""></option>
-                <option value="Topic 1"></option>
-
-            </select>
             <label for="MaterialName">Material Name</label>
             <input class="input" type="text" id="MaterialName" name="MaterialName">
 
             <label for="File">Upload File</label>
             <div class="mini-section">
                 <div class="file">
-                    <input class="file-input" type="file" id="File name=" material">
+                    <input class="file-input" type="file" id="file" name= "file">
                 </div>
-                <button id="post-btn" name="post">POST</button>
+                <button id="post-btn" name="post" type="submit">POST</button>
             </div>
         </form>
     </div>

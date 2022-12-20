@@ -59,12 +59,12 @@
 <body>
     <div class="pic-area">
         <div class="top-menu">
-            <a href="../my_classes.php">
-                <h2>Advanced Networking</h2>
+            <a href="{{route('Lec_Classes_Select')}}">
+                <h2>{{session('unit_name')}}</h2>
             </a>
             <!-- <i class="las la-bars" > -->
             <div class="credentials">
-                <h3>Phoebe Buffay</h3>
+                <h3><?php echo Auth::user()->name; ?></h3>
             </div>
         </div>
     </div>
@@ -80,18 +80,14 @@
             <td></td>
         </thead>
         <tbody>
+            @foreach($data as $data)
             <tr class="active-row">
-                <td>1234</td>
-                <td>Monica Bing</td>
-                <td>2022/5/7</td>
-                <td><a href=""><button>Download</button></a></td>
+                <td>{{$data->id}}</td>
+                <td>{{$data->name}}</td>
+                <td>{{$data->date}}</td>
+                <td><a href="{{route('viewAssignmentSubmission',$data->ass_sub_id)}}"><button>View</button></a></td>
             </tr>
-            <tr class="active-row">
-                <td>1234</td>
-                <td>Monica Bing</td>
-                <td>2022/5/7</td>
-                <td><a href=""><button>Download</button></a></td>
-            </tr>
+            @endforeach
         </tbody>
     </table>
 

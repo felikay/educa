@@ -6,6 +6,8 @@ use Session;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+
 class CustomAuthController extends Controller
 {
     public function index()
@@ -58,10 +60,10 @@ class CustomAuthController extends Controller
     {
         if(Auth::check()){
             if(Auth::user()->role== 'student'){
-                return view('Lecturer_Student_Module.Student.my_classes');
+                return Redirect('Stud_Classes_Select');
             }
             if(Auth::user()->role== 'lecturer'){
-                return view('Lecturer_Student_Module.Lecturer.my_classes');
+                return Redirect('Lec_Classes_Select');
             }
             if(Auth::user()->role== 'admin'){
                 return view('admin_landing_page');

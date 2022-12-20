@@ -1,4 +1,4 @@
-<?php $title = "View Results";
+<?php $title = session('unit_name');
 $link = "{{route('Lec_Results_Selelct')}}";
 ?>
 <!DOCTYPE html>
@@ -53,48 +53,55 @@ $link = "{{route('Lec_Results_Selelct')}}";
                     <tr>
                         <th>Adm No</th>
                         <th>Name</th>
-                        <th>CAT 1</th>
-                        <th>CAT 2</th>
-                        <th>Exam</th>
+                        <?php
+                        $examsCount = count($data6);
+                        ?>
+                        @foreach($data6 as $data6)
+                        <th>{{$data6->exam_name}}</th>
+                        @endforeach
                         <th>Total</th>
-                        <th colspan="1"></th>
+                        
                     </tr>
                 </thead>
 
-                <form action="" method="post">
-                    <tr>
-                        <td>13323</td>
-                        <td>Joey Tribbiani</td>
-                        <td>15/30</td>
-                        <td>15/30</td>
-                        <td>15/30</td>
-                        <td>70</td>
-                        <td>
-                            <form action="" method="POST">
-                                <button name="Edit">Edit</button>
-                            </form>
-                        </td>
-                    </tr>
+                @foreach($data4 as $data4)
+                <?php
+                $data5 = DB::table('student_results')
+                    ->join('exams', 'student_results.exam_id', '=', 'exams.exam_id')
+                    ->where('student_id', '=', $data4->id)
+                    ->where('exams.unit_code', '=', session('unit_id'))
+                    ->select('student_results.value', 'exams.maximum', 'exams.weight')->get();
+                ?>
+                <tr>
+                    <td>{{$data4->id}}</td>
+                    <td>{{$data4->name}}</td>
+                    <?php
+                        $resultCount = count($data5);
+                        $total=0;
+                        ?>
+                    @foreach($data5 as $data5)
+                    <td>{{$data5->value}} / {{$data5->maximum}}</td>
+                    <?php
+                    $total2=($data5->value * $data5->weight)/$data5->maximum;
+                    $total=number_format($total2,2);
+                    ?>
+                    @endforeach
+                    @while($resultCount<$examsCount)
+                    <td>Not Updated</td>
+                    <?php $resultCount++?>
+                    @endwhile
+                    <td>{{$total}} / 100</td>
+                    <td>
+                        <form action="{{ route('edit_student_results')}}" method="POST">
+                            @csrf
+                            <button name="Edit">Edit</button>
+                            <input type="hidden" name="student_id" value="{{$data4->id}}">
+                        </form>
+                    </td>
+                </tr>
+                @endforeach
             </table>
 
-
-            <div class="overlay" id="edit">
-                <div class="wrapper">
-                    <a id="close" href="#"><i class="las la-times"></i></a>
-                    <div class="content">
-                        <div class="container">
-                            <form action="" method="post">
-                                <h2>Joey Tribbiani</h2>
-                                <hr>
-                                <br>
-                                <label for="mark">CAT 1</label>
-                                <input class="input" type="number" id="mark" name="mark[]" value="15">
-                                <button type="submit" id="create-btn" name="Edit2">EDIT</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 </body>
 

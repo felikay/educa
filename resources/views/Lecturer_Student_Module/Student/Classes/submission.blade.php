@@ -94,7 +94,7 @@
             color: white;
             cursor: pointer;
             transition: .4s;
-            margin-left: 85%;
+            margin-left: 75%;
         }
 
         button:hover {
@@ -134,8 +134,7 @@
         .file {
             width: 205px;
         }
-
-        .this {
+        .this{
             display: inline;
             display: flex;
             flex-direction: row;
@@ -143,59 +142,97 @@
             padding: 0;
             width: 100%;
         }
-
-        .this button {
+        .this button{
             margin: 0;
             margin-left: 570%;
             height: 17px;
             padding-top: 1px;
-
-        }
-
-        .input {
-            width: 100%;
-            border: 0;
-            border-bottom: 2px solid black;
-            outline: 0;
-            font-size: 1.3rem;
-            color: black;
-            padding: 7px 0;
-            background: transparent;
-            margin-bottom: 30px;
+           
         }
     </style>
-    <title>Edit Results</title>
+    <title>Submission Details</title>
 </head>
 
 <body>
     <div class="overlay">
         <div class="wrapper">
-            <a id="close" href="{{route('Stud_Results_Select')}}"><i class="las la-times"></i></a>
+            <a id="close" href="{{route('Stud_Assignment')}}"><i class="las la-times"></i></a>
             <div class="content">
                 <div class="container">
-                    <?php
-                    $total = 0;
-                    ?>
-                    <h1>{{session('unit_name')}}</h1>
+                    @php
+                    $id= "";
+                    @endphp
+                    @foreach ($data2 as $data2)
+                    <h1>{{$data2->assignment_name}}</h1>
                     <br />
-                    @foreach($data5 as $data5)
-                    <h2>{{$data5->exam_name}} :</h2>
-                    <hr />
-                    <h3>{{$data5->value}} / {{$data5->maximum}}</h3>
-                    <br />
-                    <?php
-                    $total2=($data5->value * $data5->weight)/$data5->maximum;
-                    $total=number_format($total2,2);
-                    ?>
+                    @php
+                    $id= $data2->lec_ass_id;
+                    @endphp
                     @endforeach
-                    <h2>Total:</h2>
+
+                    <h2>Status:</h2>
                     <hr />
-                    <h3>{{$total}} / 100</h3>
+                    <br />
+
+                    @if($data->isEmpty())
+                    <h3>No Submission</h3>
+                    <br />
+                    <h2>Submit:</h2>
+                    <hr />
+                    <br />
+                    <form action="{{route('submit_assignment')}}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <label for="file">Upload File</label>
+                        <div class="file">
+                            <input class="file-input" type="file" id="file" name="file">
+                        </div>
+
+                        <input type="hidden" name="student_id" value="141733">
+                        <input type="hidden" name="assignment_id" value="{{$id}}">
+                        <br />
+
+                        <button id="create-btn" name="create">SUBMIT</button>
+
+                    </form>
+
+                    @else
+                    @foreach($data as $data)
+                    <h3>Submitted</h3>
+                    <br />
+                    <h2>View:</h2>
+                    <hr />
+                    <br />
+                    <div class="this">
+                        <a href="{{route('viewAssignmentSubmission',$data->ass_sub_id)}}">Your Submission</a>
+                        <form action="{{ route('delete_assignment') }}" method="post">
+                            @csrf
+                            <input type="hidden" name="id" value="{{$data->ass_sub_id}}">
+                            <button type="submit" name="delete" class="del pull-right"><i class="las la-trash-alt"></i></button>
+                        </form>
+                    </div>
+                    <br />
+                    <h2>Edit</h2>
+                    <hr />
+                    <br />
+                    <form action="{{route('edit_assignment')}}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <label for="file">Upload File</label>
+                        <div class="file">
+                            <input class="file-input" type="file" id="file" name="file">
+                        </div>
+
+                        <input type="hidden" name="id" value="{{$data->ass_sub_id}}">
+                        <br />
+
+                        <button id="create-btn" name="create">EDIT</button>
+                    </form>
+                    @endforeach
+                    @endif
+
                 </div>
             </div>
         </div>
     </div>
-
 
 </body>
 

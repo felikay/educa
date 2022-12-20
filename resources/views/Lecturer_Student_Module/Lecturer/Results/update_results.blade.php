@@ -1,4 +1,4 @@
-<?php $title = "Update Results";
+<?php $title = session('unit_name');
 $link = "{{route('Lec_Results_Selelct')}}";
 ?>
 <!DOCTYPE html>
@@ -15,7 +15,7 @@ $link = "{{route('Lec_Results_Selelct')}}";
     <link rel="stylesheet" href="{{ URL::asset('css/sidebar_main.css') }}">
     <link rel="stylesheet" href="{{ URL::asset('css/top_header.css') }}">
 
-    <title>Update Results</title>
+    <title>Update Results- {{session('unit_name')}}</title>
 </head>
 
 <body>
@@ -40,15 +40,11 @@ $link = "{{route('Lec_Results_Selelct')}}";
 
                 <div class="content">
                     <div class="container">
-                        <form action="" method="post">
+                        <form method="post" action="{{ route('create_exam') }}">
+                            @csrf
                             <label for="ExamName">Exam Name</label>
                             <input class="input" type="text" name="ExamName" id="ExamName">
 
-
-                            <label for="UnitCode">Unit Code</label>
-                            <select class="input" id="UnitCode" name="UnitCode">
-                                <option value="hide"></option>
-                            </select>
                             <label for="date">Date</label>
                             <input class="input" type="date" id="date" name="date">
 
@@ -70,35 +66,71 @@ $link = "{{route('Lec_Results_Selelct')}}";
             <div class="col-2">
                 <h2 id="choosehead1">Choose Exam</h2>
                 <hr />
-                <form method="post" action="" id="form1">
-                    <select class="input" id="ExamName" name="ExamName">
+                <form method="post" action="{{ route('fetch_exam_details') }}" id="form1">
+                    @csrf
+                    <select class="input" id="ExamID" name="ExamID">
                         <option value=""></option>
+                        @foreach ($data as $data)
+                        <option value="{{$data->exam_id}}">{{$data->exam_name}}</option>
+                        @endforeach
                     </select>
-
                     <button type="submit" name="ExamChooser"><i class="las la-check"></i></button>
                 </form>
             </div>
         </div>
-
+        @if(null !== @$data2)
+        @foreach($data2 as $data2)
+        <?php
+        $maximum = $data2->maximum;
+        $exam_id = $data2->exam_id;
+        $exam_name = $data2->exam_name;
+        ?>
+        @endforeach
+        @endif
 
         <div class="record-marks">
-            <h2>Student Results</h2>
+            <h2>Student Results
+                @if(null !== @$data2)
+                - {{$exam_name}}
+                @endif
+            </h2>
             <hr>
 
-            <form action="" method="post">
+            <form action="{{ route('update_student_results') }}" method="post">
+                @csrf
                 <table>
+                    <?php
+                    $count = 1;
+                    $check=1;
+                    ?>
+
+                    @foreach($data4 as $data4)
+                    @if(null !== @$data4->value)
+                    <?php
+                    $check=0;
+                    ?>
+                    @endif
+
                     <tr>
-                        <td>14189 </td>
-                        <td>Rachel Green</td>
-                        <td><input class="input" type="number" name="marks[]" id="marks" value=""></td>
-                        <td>/60</td>
+                        <td>{{$data4->id}}</td>
+                        <td>{{$data4->name}}</td>
+                        <input type="hidden" name="student_id[{{$count}}]" value="{{$data4->id}}">
+                        @if(null !== @$data2)
+                        @if($check==0)
+                        <td><input class="input" type="number" name="value[{{$count}}]" value="{{$data4->value}}"></td>
+                        @else
+                        <td><input class="input" type="number" name="value[{{$count}}]" value=""></td>
+                        @endif
+                        <td>/<?php echo $maximum; ?></td>
+                        <input type="hidden" name="exam_id[{{$count}}]" value="<?php echo $exam_id; ?>">
+                        @endif
                     </tr>
-                    <tr>
-                        <td>14189 </td>
-                        <td>Rachel Green</td>
-                        <td><input class="input" type="number" name="marks[]" id="marks" value=""></td>
-                        <td>/60</td>
-                    </tr>
+
+                    <?php $count++; 
+                    ?>
+                    @endforeach
+
+
                 </table>
                 <button type="submit" id="final_submit" name="result_submit">SUBMIT</button>
 

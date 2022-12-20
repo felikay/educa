@@ -170,27 +170,29 @@
 <body>
     <div class="overlay">
         <div class="wrapper">
-            <a id="close" href="{{route('Stud_Results_Select')}}"><i class="las la-times"></i></a>
+            <a id="close" href="{{route('view_results')}}"><i class="las la-times"></i></a>
             <div class="content">
                 <div class="container">
-                    <?php
-                    $total = 0;
-                    ?>
-                    <h1>{{session('unit_name')}}</h1>
+                    @foreach($data6 as $data6)
+                    <h1>{{$data6->name}}</h1>
+                    <hr>
                     <br />
-                    @foreach($data5 as $data5)
-                    <h2>{{$data5->exam_name}} :</h2>
-                    <hr />
-                    <h3>{{$data5->value}} / {{$data5->maximum}}</h3>
-                    <br />
-                    <?php
-                    $total2=($data5->value * $data5->weight)/$data5->maximum;
-                    $total=number_format($total2,2);
-                    ?>
                     @endforeach
-                    <h2>Total:</h2>
-                    <hr />
-                    <h3>{{$total}} / 100</h3>
+                    <?php
+                    $count = 1;
+                    ?>
+
+                    <form action="{{ route('edit_student_results2')}}" method="POST">
+                        @csrf
+                        @foreach($data5 as $data5)
+                        <h2>{{$data5->exam_name}}: {/{{$data5->maximum}}}</h2>
+                        <input class="input" type="number" value="{{$data5->value}}" name="value[{{$count}}]">
+                        <input type="hidden" name="result_id[{{$count}}]" value="{{$data5->result_id}}">
+                        <?php $count++;
+                        ?>
+                        @endforeach
+                        <button name="Edit">Edit</button>
+                    </form>
                 </div>
             </div>
         </div>

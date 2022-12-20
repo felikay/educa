@@ -26,45 +26,24 @@ $link = "#";
         @include("Lecturer_Student_Module.Lecturer.top_header");
         <main>
             <div class="classes">
+                @foreach($data as $data)
                 <div class="class-1">
-                    <form action="">
+                    <form action="{{Route('Lec_Class_unit_selector')}}" method="post">
+                        @csrf
                         <div class="class-desc">
                             <button type="submit" name="choose_class">
-                                <h4>ICS 1221</h4>
-                                <h4>Advanced Networking</h4>
+                                <h2>{{$data->unit_name}}</h2>
                                 <hr>
-                                <h5>Phoebe Buffay</h5>
+                                <h3><?php echo Auth::user()->name; ?></h3>
                                 <p>70 Students</p>
                             </button>
                         </div>
+                        <input type="hidden" name="unit_id" value="{{$data->id}}">
+                        <input type="hidden" name="unit_name" value="{{$data->unit_name}}">
                     </form>
                 </div>
-                <div class="class-1">
-                    <form action="">
-                        <div class="class-desc">
-                            <button type="submit" name="choose_class">
-                                <h4>ICS 1221</h4>
-                                <h4>Advanced Networking</h4>
-                                <hr>
-                                <h5>Phoebe Buffay</h5>
-                                <p>70 Students</p>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-                <div class="class-1">
-                    <form action="">
-                        <div class="class-desc">
-                            <button type="submit" name="choose_class">
-                                <h4>ICS 1221</h4>
-                                <h4>Advanced Networking</h4>
-                                <hr>
-                                <h5>Phoebe Buffay</h5>
-                                <p>70 Students</p>
-                            </button>
-                        </div>
-                    </form>
-                </div>
+
+                @endforeach
             </div>
         </main>
     </div>
