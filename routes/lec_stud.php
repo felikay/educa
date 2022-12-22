@@ -9,6 +9,7 @@ use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\StaffController;
 
 
 /////////////////////////////////////Connections in the LEC-STUD Module////////////////////////////////////
@@ -174,3 +175,12 @@ Route::post('edit_assignment', [Lecturer_Controller::class, 'editAssignment'])->
 
 Route::get('/viewMatierial/{material_id}', [Lecturer_Controller::class, 'viewMaterials'])->name('viewMatierial');
 Route::get('/viewAssignmentSubmission/{material_id}', [Lecturer_Controller::class, 'viewAssignmentSubmission'])->name('viewAssignmentSubmission');
+
+
+
+
+
+Route::post('staffregister', [StaffController::class, 'staff_register'])->name('staffregister');
+Route::get('/staff', function () {
+    return view('staff_registration');
+})->name('staff');
