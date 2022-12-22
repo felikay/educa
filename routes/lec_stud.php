@@ -13,15 +13,20 @@ use Illuminate\Support\Facades\Auth;
 
 /////////////////////////////////////Connections in the LEC-STUD Module////////////////////////////////////
 Route::get('/update_attendance', function () {
-    return view('Lecturer_Student_Module.Lecturer.Attendance.update_attendance');
+    $data4 = DB::table('students_fake')
+        ->join('enrollment_fake', 'enrollment_fake.student_id', '=', 'students_fake.id')
+        ->where('enrollment_fake.unit_code', '=', session('unit_id'))
+        ->select('students_fake.id', 'students_fake.name')->get();
+    return view('Lecturer_Student_Module.Lecturer.Attendance.update_attendance')->with('data4', $data4);
 })->name('update_attendance');
 Route::get('/view_class_attendance', function () {
-    return view('Lecturer_Student_Module.Lecturer.Attendance.view_class_attendance');
+    $data4 = DB::table('students_fake')
+        ->join('enrollment_fake', 'enrollment_fake.student_id', '=', 'students_fake.id')
+        ->where('enrollment_fake.unit_code', '=', session('unit_id'))
+        ->select('students_fake.id', 'students_fake.name')->get();
+    $data=DB::table('attendance')->where('unit_code','=', session('unit_id'))->select('date')->distinct()->get();
+    return view('Lecturer_Student_Module.Lecturer.Attendance.view_class_attendance')->with('data', $data)->with('data4', $data4);
 })->name('view_class_attendance');
-// Route::get('/messages', function () {
-//     return view('Lecturer_Student_Module.messages');
-// })->name('messages');
-
 
 Route::get('/update_results', function () {
     $data = DB::table('exams')->where('unit_code', '=', session('unit_id'))->get();
@@ -143,7 +148,8 @@ Route::get('/Stud_View_Results', function () {
     return view('Lecturer_Student_Module.Student.view_result')->with('data5', $data5);
 })->name('Stud_View_Results');
 Route::get('/Stud_View_Attendance', function () {
-    return view('Lecturer_Student_Module.Student.view_attendance');
+    $data=DB::table('attendance')->where('student_id','=',141733)->where('unit_code', '=', session('unit_id'))->get();
+    return view('Lecturer_Student_Module.Student.view_attendance')->with('data', $data);
 })->name('Stud_View_Attendance');
 
 
@@ -157,8 +163,11 @@ Route::get('/Lec_view_submissions/{assignment_id}', [Lecturer_Controller::class,
 Route::post('create_exam', [Lecturer_Controller::class, 'createExam'])->name('create_exam');
 Route::post('fetch_exam_details', [Lecturer_Controller::class, 'fetchExamDetails'])->name('fetch_exam_details');
 Route::post('update_student_results', [Lecturer_Controller::class, 'updateStudentResults'])->name('update_student_results');
+Route::post('update_student_attendance', [Lecturer_Controller::class, 'updateStudentAttendance'])->name('update_student_attendance');
 Route::post('edit_student_results', [Lecturer_Controller::class, 'editStudentResults'])->name('edit_student_results');
 Route::post('edit_student_results2', [Lecturer_Controller::class, 'editStudentResults2'])->name('edit_student_results2');
+Route::post('choose_date', [Lecturer_Controller::class, 'chooseDate'])->name('choose_date');
+Route::post('choose_view_date', [Lecturer_Controller::class, 'chooseViewDate'])->name('choose_view_date');
 
 
 
@@ -168,6 +177,7 @@ Route::get('/submissionDetails/{assignment_id}', [Lecturer_Controller::class, 's
 Route::post('submit_assignment', [Lecturer_Controller::class, 'submitAssignment'])->name('submit_assignment');
 Route::post('delete_assignment', [Lecturer_Controller::class, 'deleteAssignment'])->name('delete_assignment');
 Route::post('edit_assignment', [Lecturer_Controller::class, 'editAssignment'])->name('edit_assignment');
+
 
 
 

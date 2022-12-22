@@ -34,39 +34,49 @@ $link = "{{route('Lec_Attendance_Select')}}";
 
         <div class="choose-exam">
             <div class="col-2">
-
                 <h2 id="choosehead1">Choose Date</h2>
                 <hr />
-
-                <form id="form1" action="" method="post">
-                    <input class="input" type="date" name="AttendanceDate" id="AttendanceDate">
-                    <button name="select_date"><i class="las la-check"></i></button>
+                <form method="post" action="{{ route('choose_view_date') }}" id="form1">
+                    @csrf
+                    <select class="input" id="date" name="date">
+                        <option value=""></option>
+                        @foreach ($data as $data)
+                        <option value="{{$data->date}}">{{$data->date}}</option>
+                        @endforeach
+                    </select>
+                    <button type="submit" name="ExamChooser"><i class="las la-check"></i></button>
                 </form>
             </div>
 
 
 
             <div class="record-marks">
-                <h2>View Attendance</h2>
+            @if(null !== @$data2)
+            <?php
+            $date = $data2['date'];
+            ?>
+            @endif
+                <h2>View Attendance
+                @if(null !== @$data2)
+                - {{$date}}
+                @endif
+                </h2>
                 <hr>
-
-                <form action="" method="post">
-                    <table>
-                        <tr>
-                            <td>13232</td>
-                            <td>Mike Ross</td>
-                            <td><i class="fa fa-check" aria-hidden="true" style="color: green; font-size: 18pt;"></i></td>
-                        </tr>
-                        <tr>
-                            <td>13232</td>
-                            <td>Mike Ross</td>
-                            <td><i class="fa fa-times" aria-hidden="true" style="color: red; font-size: 18pt"></i></td>
-                        </tr>
-                    </table>
-                    <form action="" method="POST">
-                        <button id="final_submit" name="Edit">Edit</button>
-                    </form>
-                </form>
+                <table>
+                    @foreach($data4 as $data4)
+                    <tr>
+                        <td>{{$data4->id}}</td>
+                        <td>{{$data4->name}}</td>
+                        @if(null !== @$data4->status)
+                        @if($data4->status==1)
+                        <td><i class="fa fa-check" aria-hidden="true" style="color: green; font-size: 18pt;"></i></td>
+                        @elseif($data4->status==0)
+                        <td><i class="fa fa-times" aria-hidden="true" style="color: red; font-size: 18pt"></i></td>
+                        @endif
+                        @endif
+                    </tr>
+                    @endforeach
+                </table>
             </div>
         </div>
     </div>
