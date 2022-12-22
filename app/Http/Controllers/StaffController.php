@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
+
 class StaffController extends Controller
 {
     //
@@ -27,6 +29,7 @@ class StaffController extends Controller
 
         $data2=array('name'=>$name,"email"=>$email,"department"=>$department,"user_id"=>$id );
         DB::table('staff')->insert($data2);
+        return Redirect("staff_members");
 
     }
 }

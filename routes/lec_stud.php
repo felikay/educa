@@ -184,3 +184,7 @@ Route::post('staffregister', [StaffController::class, 'staff_register'])->name('
 Route::get('/staff', function () {
     return view('staff_registration');
 })->name('staff');
+Route::get('/staff_members', function () {
+    $data=DB::table("staff")->get();
+    return view('display_staff')->with("data",$data);
+})->name('staff_members');
