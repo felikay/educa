@@ -1,8 +1,8 @@
 <?php
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use Hash;
-use Session;
+use Illuminate\Support\Facades\Hash;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -69,7 +69,7 @@ class CustomAuthController extends Controller
                 return view('admin_landing_page');
             }
             if(Auth::user()->role== 'staff'){
-                return view('staff_landing_page');
+                return Redirect('chatify');
             }
             
         }
