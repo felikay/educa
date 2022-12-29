@@ -516,7 +516,7 @@ https://templatemo.com/tm-569-edu-meeting
         <div class="col-lg-9 align-self-center">
           <div class="row">
             <div class="col-lg-12">
-              <form id="contact" action="" method="post">
+              <form id="contact" action="/" method="POST">
                 <div class="row">
                   <div class="col-lg-12">
                     <h2>Apply/Register for a course with us</h2>
