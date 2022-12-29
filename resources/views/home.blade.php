@@ -516,7 +516,9 @@ https://templatemo.com/tm-569-edu-meeting
         <div class="col-lg-9 align-self-center">
           <div class="row">
             <div class="col-lg-12">
-              <form id="contact" action="/" method="POST">
+              <form id="contact" action="/" method="post">
+              @csrf
+
                 <div class="row">
                   <div class="col-lg-12">
                     <h2>Apply/Register for a course with us</h2>
@@ -533,22 +535,22 @@ https://templatemo.com/tm-569-edu-meeting
                   </div>
                   <div class="col-lg-4">
                     <fieldset>
-                      <input name="subject" type="text" id="subject" placeholder="PHONE NUMBER...*" required="">
+                      <input name="number" type="text" id="subject" placeholder="PHONE NUMBER...*" required="">
                     </fieldset>
                   </div>
                   <div class="col-lg-4">
                     <fieldset>
-                      <input name="subject" type="text" id="subject" placeholder="COURSE...*" required="">
+                      <input name="course" type="text" id="subject" placeholder="COURSE...*" required="">
                     </fieldset>
                   </div>
                   <div class="col-lg-4">
                     <fieldset>
-                      <input name="subject" type="text" id="subject" placeholder="YEAR...*" required="">
+                      <input name="year" type="text" id="subject" placeholder="YEAR...*" required="">
                     </fieldset>
                   </div>
                   <div class="col-lg-4">
                     <fieldset>
-                      <input name="subject" type="text" id="subject" placeholder="ADDRESS...*" required="">
+                      <input name="address" type="text" id="subject" placeholder="ADDRESS...*" required="">
                     </fieldset>
                   </div>
                   <div class="col-lg-12">
