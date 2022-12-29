@@ -54,7 +54,7 @@ $link = "#";
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="{{ URL::asset('css/lec_classes.css') }}">
+    <link rel="stylesheet" href="{{ URL::asset('css/classes.css') }}">
     <link rel="stylesheet" href="{{ URL::asset('css/top_header.css') }}">
 
 
@@ -63,10 +63,16 @@ $link = "#";
 
 <body>
 
-    @include("Lecturer_Student_Module.Student.top_header");
-    <div class="box">
-        <h2>Advanced Networking</h2>
-        <hr />
+    <div class="pic-area">
+        <div class="top-menu">
+            <a href="{{route('Stud_Attendance_Select')}}">
+                <h2>{{session('unit_name')}}</h2>
+            </a>
+            <!-- <i class="las la-bars" > -->
+            <div class="credentials">
+                <h3><?php echo Auth::user()->name; ?></h3>
+            </div>
+        </div>
     </div>
     <table class="styled-table">
         <thead>
@@ -74,17 +80,19 @@ $link = "#";
             <th>Status</th>
         </thead>
         <tbody>
+            @foreach($data as $data)
             <tr class="active-row">
-                <td>2022/23/3</td>
+                <td>{{$data->date}}</td>
+                @if($data->status==1)
                 <td><i class="fa fa-check" aria-hidden="true" style="color: green; font-size: 18pt;"></i></td>
-            </tr>
-            <tr>
-                <td>2022/30/3</td>
+                @elseif($data->status==0)
                 <td><i class="fa fa-times" aria-hidden="true" style="color: red; font-size: 18pt"></i></td>
+                @endif
             </tr>
+            @endforeach
         </tbody>
     </table>
 
     </div>
-    <a href="../Lecturer/attendance_select.html"> <button id="back_btn">BACK</button></a>
+    <a href="{{route('Stud_Attendance_Select')}}"> <button id="back_btn">BACK</button></a>
 </body>

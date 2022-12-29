@@ -9,19 +9,25 @@ use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\StaffController;
 
 
 /////////////////////////////////////Connections in the LEC-STUD Module////////////////////////////////////
 Route::get('/update_attendance', function () {
-    return view('Lecturer_Student_Module.Lecturer.Attendance.update_attendance');
+    $data4 = DB::table('students_fake')
+        ->join('enrollment_fake', 'enrollment_fake.student_id', '=', 'students_fake.id')
+        ->where('enrollment_fake.unit_code', '=', session('unit_id'))
+        ->select('students_fake.id', 'students_fake.name')->get();
+    return view('Lecturer_Student_Module.Lecturer.Attendance.update_attendance')->with('data4', $data4);
 })->name('update_attendance');
 Route::get('/view_class_attendance', function () {
-    return view('Lecturer_Student_Module.Lecturer.Attendance.view_class_attendance');
+    $data4 = DB::table('students_fake')
+        ->join('enrollment_fake', 'enrollment_fake.student_id', '=', 'students_fake.id')
+        ->where('enrollment_fake.unit_code', '=', session('unit_id'))
+        ->select('students_fake.id', 'students_fake.name')->get();
+    $data=DB::table('attendance')->where('unit_code','=', session('unit_id'))->select('date')->distinct()->get();
+    return view('Lecturer_Student_Module.Lecturer.Attendance.view_class_attendance')->with('data', $data)->with('data4', $data4);
 })->name('view_class_attendance');
-// Route::get('/messages', function () {
-//     return view('Lecturer_Student_Module.messages');
-// })->name('messages');
-
 
 Route::get('/update_results', function () {
     $data = DB::table('exams')->where('unit_code', '=', session('unit_id'))->get();
@@ -143,7 +149,8 @@ Route::get('/Stud_View_Results', function () {
     return view('Lecturer_Student_Module.Student.view_result')->with('data5', $data5);
 })->name('Stud_View_Results');
 Route::get('/Stud_View_Attendance', function () {
-    return view('Lecturer_Student_Module.Student.view_attendance');
+    $data=DB::table('attendance')->where('student_id','=',141733)->where('unit_code', '=', session('unit_id'))->get();
+    return view('Lecturer_Student_Module.Student.view_attendance')->with('data', $data);
 })->name('Stud_View_Attendance');
 
 
@@ -157,8 +164,11 @@ Route::get('/Lec_view_submissions/{assignment_id}', [Lecturer_Controller::class,
 Route::post('create_exam', [Lecturer_Controller::class, 'createExam'])->name('create_exam');
 Route::post('fetch_exam_details', [Lecturer_Controller::class, 'fetchExamDetails'])->name('fetch_exam_details');
 Route::post('update_student_results', [Lecturer_Controller::class, 'updateStudentResults'])->name('update_student_results');
+Route::post('update_student_attendance', [Lecturer_Controller::class, 'updateStudentAttendance'])->name('update_student_attendance');
 Route::post('edit_student_results', [Lecturer_Controller::class, 'editStudentResults'])->name('edit_student_results');
 Route::post('edit_student_results2', [Lecturer_Controller::class, 'editStudentResults2'])->name('edit_student_results2');
+Route::post('choose_date', [Lecturer_Controller::class, 'chooseDate'])->name('choose_date');
+Route::post('choose_view_date', [Lecturer_Controller::class, 'chooseViewDate'])->name('choose_view_date');
 
 
 
@@ -172,5 +182,19 @@ Route::post('edit_assignment', [Lecturer_Controller::class, 'editAssignment'])->
 
 
 
+
 Route::get('/viewMatierial/{material_id}', [Lecturer_Controller::class, 'viewMaterials'])->name('viewMatierial');
 Route::get('/viewAssignmentSubmission/{material_id}', [Lecturer_Controller::class, 'viewAssignmentSubmission'])->name('viewAssignmentSubmission');
+
+
+
+
+
+Route::post('staffregister', [StaffController::class, 'staff_register'])->name('staffregister');
+Route::get('/staff', function () {
+    return view('staff_registration');
+})->name('staff');
+Route::get('/staff_members', function () {
+    $data=DB::table("staff")->get();
+    return view('display_staff')->with("data",$data);
+})->name('staff_members');

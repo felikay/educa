@@ -8,7 +8,7 @@
             <li><a href="{{route('Lec_Classes_Select')}}">My Classes</a></li>
             <li><a href="{{route('Lec_Results_Select')}}">Results</a></li>
             <li><a href="{{route('Lec_Attendance_Select')}}">Attendance</a></li>
-            <li><a href="">Messages</a></li>
+            <li><a href="{{route('chatify')}}">Messages</a></li>
             <li><a href="{{ route('signout') }}">Log Out</a></li>
         </ul>
     </div>
