@@ -77,7 +77,7 @@
             <th>Student Number</th>
             <th>Student Name</th>
             <th>Date Submitted</th>
-            <td></td>
+            <th></th>
         </thead>
         <tbody>
             @foreach($data as $data)

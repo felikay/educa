@@ -60,7 +60,7 @@ class Lecturer_Controller extends Controller
 
     public function submissionDetails($assignment_id)
     {
-        $student_id = 141733;
+        $student_id = session('student_id');
         $data = DB::table('assiggnment_submissions')->where('assignment_id', '=', $assignment_id)->where('student_id', '=', $student_id)->get();
         $data2 = DB::table('lecturer_assignments')->where('lec_ass_id', "=", $assignment_id)->get();
         return view('Lecturer_Student_Module.Student.Classes.submission')->with('data2', $data2)->with('data', $data);
@@ -132,16 +132,16 @@ class Lecturer_Controller extends Controller
         $check = DB::table('student_results')->where('exam_id', '=', session('exam_id'))->get();
         if (!$check->isEmpty()) {
             $data4 = DB::table('students_fake')
-                ->join('enrollment_fake', 'enrollment_fake.student_id', '=', 'students_fake.id')
+                ->join('enrollment', 'enrollment.student_id', '=', 'students_fake.id')
                 ->join('student_results', 'student_results.student_id', '=', 'students_fake.id')
-                ->where('enrollment_fake.unit_code', '=', session('unit_id'))
+                ->where('enrollment.unit_id', '=', session('unit_id'))
                 ->where('exam_id', '=', session('exam_id'))
                 ->select('students_fake.id', 'students_fake.name', 'student_results.value')->get();
             return view('Lecturer_Student_Module.Lecturer.Results.update_results')->with('data', $data)->with('data2', $data2)->with('data4', $data4);
         } else {
             $data4 = DB::table('students_fake')
-                ->join('enrollment_fake', 'enrollment_fake.student_id', '=', 'students_fake.id')
-                ->where('enrollment_fake.unit_code', '=', session('unit_id'))
+                ->join('enrollment', 'enrollment.student_id', '=', 'students_fake.id')
+                ->where('enrollment.unit_id', '=', session('unit_id'))
                 ->select('students_fake.id', 'students_fake.name')->get();
             return view('Lecturer_Student_Module.Lecturer.Results.update_results')->with('data', $data)->with('data2', $data2)->with('data4', $data4);
         }
@@ -305,17 +305,17 @@ class Lecturer_Controller extends Controller
         $check = DB::table('attendance')->where('unit_code', '=', session('unit_id'))->where('date', '=', $date)->get();
         if (!$check->isEmpty()) {
             $data4 = DB::table('students_fake')
-                ->join('enrollment_fake', 'enrollment_fake.student_id', '=', 'students_fake.id')
+                ->join('enrollment', 'enrollment.student_id', '=', 'students_fake.id')
                 ->join('attendance', 'attendance.student_id', '=', 'students_fake.id')
-                ->where('enrollment_fake.unit_code', '=', session('unit_id'))
+                ->where('enrollment.unit_id', '=', session('unit_id'))
                 ->where('date', '=',  $date)
                 ->select('students_fake.id', 'students_fake.name', 'attendance.status')->get();
                 return view('Lecturer_Student_Module.Lecturer.Attendance.update_attendance')->with('data4', $data4)->with('data', $data);
         } else {
 
             $data4 = DB::table('students_fake')
-                ->join('enrollment_fake', 'enrollment_fake.student_id', '=', 'students_fake.id')
-                ->where('enrollment_fake.unit_code', '=', session('unit_id'))
+                ->join('enrollment', 'enrollment.student_id', '=', 'students_fake.id')
+                ->where('enrollment.unit_id', '=', session('unit_id'))
                 ->select('students_fake.id', 'students_fake.name')->get();
             return view('Lecturer_Student_Module.Lecturer.Attendance.update_attendance')->with('data4', $data4)->with('data', $data);
         }
@@ -325,9 +325,9 @@ class Lecturer_Controller extends Controller
     {
         $date = $request->input('date');
         $data4 = DB::table('students_fake')
-        ->join('enrollment_fake', 'enrollment_fake.student_id', '=', 'students_fake.id')
+        ->join('enrollment', 'enrollment.student_id', '=', 'students_fake.id')
         ->join('attendance', 'attendance.student_id', '=', 'students_fake.id')
-        ->where('enrollment_fake.unit_code', '=', session('unit_id'))
+        ->where('enrollment_.unit_id', '=', session('unit_id'))
         ->where('date', '=',  $date)
         ->select('students_fake.id', 'students_fake.name', 'attendance.status')->get();
         $data2['date']=$date ;
