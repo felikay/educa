@@ -22,6 +22,7 @@ class CreateApplicationsTable extends Migration
             $table->string('year');
             $table->string('address');
             $table->string('message');
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }
