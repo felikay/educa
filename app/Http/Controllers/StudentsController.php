@@ -35,7 +35,7 @@ class StudentsController extends Controller
 		'status' => 1 ,
 	]);
 
-    return redirect()->back();
+    return redirect('/send_mail');
     }
 
     public function read(){
@@ -64,5 +64,6 @@ class StudentsController extends Controller
 		
     return redirect()->back();
     }
+
 
 }

@@ -19,15 +19,9 @@ class ApplicationsController extends Controller
     $message = $request->input('message');
     $data=array('name'=>$name,"email"=>$email,"number"=>$number, "course"=>$course, "year"=>$year, "address"=>$address, "message"=>$message);
     DB::table('applications')->insert($data);
-    echo "Record inserted successfully!";
 
-    redirect('/');
+    return redirect('/')->with('message','Successful submission!');
     }
-
-    //public function viewApplications($data){
-        //$data = Applications::where('applications', "=", $data)->get();
-        //return view('/view_applications')->with('data', $data);
-    //}
 
     public function viewApplications(){
         $data = DB::select('select * from applications');

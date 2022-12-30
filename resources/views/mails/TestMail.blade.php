@@ -8,9 +8,8 @@
     <p>{{ $details['body'] }}</p>
    
     <p>Thank you</p>
-<br>
 
     <p>Kind regards,</p>
-    <p>Eduka Team</p>
+    <p>Eduka Team.</p>
 </body>
 </html>
