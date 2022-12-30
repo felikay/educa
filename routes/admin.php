@@ -39,6 +39,14 @@ Route::get('/view_units', function () {
     return view('admin_module.view_units')->with('data',$data);
 })->name('view_units');
 
+Route::get('/view_applications', function () {
+    $data=DB::table('applications')->where('status', '=', 0)->get();
+    return view('admin_module.view_applications')->with('data',$data);
+})->name('view_applications');
+
+Route::get('/allo_class', function () {
+    return view('admin_module.allo_class');
+})->name('allo_class');
 
 
 Route::post('create_lecturer', [AdminController::class, 'CreateLecturer'])->name('create_lecturer');

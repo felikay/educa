@@ -23,4 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/students', [StudentsController::class, "create"]);
+Route::post('accept_app', [StudentsController::class, 'create'])->name('accept_app');
+Route::post('decline_app', [StudentsController::class, 'update'])->name('decline_app');
+Route::get('view_students', [StudentsController::class, 'read'])->name('view_students');
+Route::post('delete_students', [StudentsController::class, 'delete'])->name('delete_students');
