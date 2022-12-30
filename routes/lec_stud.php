@@ -117,20 +117,31 @@ Route::get('/Stud_Attendance_Select', function () {
     return view('Lecturer_Student_Module.Student.attendance_select')->with('data3', $data3);
 })->name('Stud_Attendance_Select');
 Route::get('/Stud_Classes_Select', function () {
-    $data6 = DB::table('units')->get();
+   
 
     $data3 = DB::table('units')
         ->join('enrollments', 'units.id', '=', 'enrollments.unit_id')
         ->join('lecturer', 'units.lecturer_id', '=', 'lecturer.id')
         ->select('units.unit_name', 'units.id', 'lecturer.fname','lecturer.sname','units.capacity')
         ->where('enrollments.student_id', '=', session('student_id'))->get();
-    $data4 = DB::table('units')
-        ->join('enrollments', 'units.id', '=', 'enrollments.unit_id')
-        ->join('lecturer', 'units.lecturer_id', '=', 'lecturer.id')
-        ->select('units.unit_name', 'enrollments.id', 'lecturer.fname')
-        ->where('enrollments.student_id', '=', session('student_id'))->get();
-    return view('Lecturer_Student_Module.Student.my_classes')->with('data3', $data3)->with('data6', $data6)->with('data4', $data4);
+   
+    return view('Lecturer_Student_Module.Student.my_classes')->with('data3', $data3);
 })->name('Stud_Classes_Select');
+
+Route::get('/get_unenroll', function () {
+    $data4 = DB::table('units')
+    ->join('enrollments', 'units.id', '=', 'enrollments.unit_id')
+    ->join('lecturer', 'units.lecturer_id', '=', 'lecturer.id')
+    ->select('units.unit_name', 'enrollments.id', 'lecturer.fname')
+    ->where('enrollments.student_id', '=', session('student_id'))->get();
+    return view('Lecturer_Student_Module.Student.unenroll')->with('data4', $data4);
+})->name('get_unenroll');
+
+Route::get('/get_enroll', function () {
+    $data6 = DB::table('units')->get();
+    return view('Lecturer_Student_Module.Student.enroll')->with('data6', $data6);
+})->name('get_enroll');
+
 Route::get('/Stud_Results_Select', function () {
 
     $data3 = DB::table('units')
@@ -160,6 +171,11 @@ Route::get('/Stud_View_Attendance', function () {
     $data = DB::table('attendance')->where('student_id', '=', session('student_id'))->where('unit_code', '=', session('unit_id'))->get();
     return view('Lecturer_Student_Module.Student.view_attendance')->with('data', $data);
 })->name('Stud_View_Attendance');
+
+Route::get('/lec_view_timetable', function () {
+    $data=DB::table('timetable')->join('units','timetable.unit','=','units.id')->join('lecturer','units.lecturer_id','=','lecturer.id')->where('lecturer.id','=',session('lecturer_id'))->select('timetable.id','timetable.unit','timetable.venue','lecturer.fname','lecturer.sname','timetable.datetime','units.unit_name')->get();
+    return view('Lecturer_Student_Module.Lecturer.lec_view_timetable')->with('data',$data);
+})->name('lec_view_timetable');
 
 
 ////////////////////////////////////////////Conncections for data flow///////////////////////////////////

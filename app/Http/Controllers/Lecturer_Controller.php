@@ -72,7 +72,7 @@ class Lecturer_Controller extends Controller
     {
         $assignment_id = $request->input('assignment_id');
         $date = now();
-        $student_id = $request->input('student_id');
+        $student_id = session('student_id');
         $file = $request->file;
         $filename = time() . '.' . $file->getClientOriginalExtension();
         $request->file->move('assets/lec_student_assets', $filename);
@@ -376,13 +376,13 @@ class Lecturer_Controller extends Controller
         $unit_id = $request->input('unit_id');
         $data=array('student_id'=>session('student_id'),'unit_id'=>$unit_id);
         DB::table('enrollments')->insert($data);
-        return redirect()->back();
+        return redirect('Stud_Classes_Select');
     }
 
     public function Unenroll(Request $request)
     {
         $unit_id = $request->input('unit_id');
         DB::table('enrollments')->where('id','=',$unit_id)->delete();
-        return redirect()->back();
+        return redirect('Stud_Classes_Select');
     }
 }

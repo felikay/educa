@@ -94,7 +94,7 @@
             color: white;
             cursor: pointer;
             transition: .4s;
-            margin-left: 75%;
+            margin-left: 70%;
         }
 
         button:hover {
@@ -134,7 +134,8 @@
         .file {
             width: 205px;
         }
-        .this{
+
+        .this {
             display: inline;
             display: flex;
             flex-direction: row;
@@ -142,92 +143,58 @@
             padding: 0;
             width: 100%;
         }
-        .this button{
+
+        .this button {
             margin: 0;
             margin-left: 570%;
             height: 17px;
             padding-top: 1px;
-           
+
+        }
+
+        .input {
+            width: 100%;
+            border: 0;
+            border-bottom: 2px solid black;
+            outline: 0;
+            font-size: 1.3rem;
+            color: black;
+            padding: 7px 0;
+            background: transparent;
+            margin-bottom: 30px;
         }
     </style>
-    <title>Submission Details</title>
+
+    <title>Enroll</title>
 </head>
 
 <body>
     <div class="overlay">
         <div class="wrapper">
-            <a id="close" href="{{route('Stud_Assignment')}}"><i class="las la-times"></i></a>
+            <a id="close" href="{{route('Stud_Classes_Select')}}"><i class="las la-times"></i></a>
             <div class="content">
                 <div class="container">
-                    @php
-                    $id= "";
-                    @endphp
-                    @foreach ($data2 as $data2)
-                    <h1>{{$data2->assignment_name}}</h1>
-                    <br />
-                    @php
-                    $id= $data2->lec_ass_id;
-                    @endphp
-                    @endforeach
-
-                    <h2>Status:</h2>
-                    <hr />
-                    <br />
-
-                    @if($data->isEmpty())
-                    <h3>No Submission</h3>
-                    <br />
-                    <h2>Submit:</h2>
-                    <hr />
-                    <br />
-                    <form action="{{route('submit_assignment')}}" method="post" enctype="multipart/form-data">
+                    <h2>Enroll:</h2>
+                    <br>
+                    <form method="post" action="{{ route('enroll') }}">
                         @csrf
-                        <label for="file">Upload File</label>
-                        <div class="file">
-                            <input class="file-input" type="file" id="file" name="file">
-                        </div>
 
-                        <input type="hidden" name="assignment_id" value="{{$id}}">
-                        <br />
+                        <label for="unit_id">Select Unit</label>
+                        <select class="input" id="unit_id" name="unit_id">
+                            <option value=""></option>
+                            @foreach ($data6 as $data6)
 
-                        <button id="create-btn" name="create">SUBMIT</button>
+                            {{$check=DB::table('enrollments')->where('unit_id','=',$data6->id)->where('student_id','=',session('student_id'))->get();}}
+                            @if ($check->isEmpty())
+
+                            <option value="{{$data6->id}}">{{$data6->unit_name}}</option>
+                            @endif
+                            @endforeach
+                        </select>
+
+                        <button type="submit" id="create-btn" name="submit">ENROLL</button>
 
                     </form>
-
-                    @else
-                    @foreach($data as $data)
-                    <h3>Submitted</h3>
-                    <br />
-                    <h2>View:</h2>
-                    <hr />
-                    <br />
-                    <div class="this">
-                        <a href="{{route('viewAssignmentSubmission',$data->ass_sub_id)}}">Your Submission</a>
-                        <form action="{{ route('delete_assignment') }}" method="post">
-                            @csrf
-                            <input type="hidden" name="id" value="{{$data->ass_sub_id}}">
-                            <button type="submit" name="delete" class="del pull-right"><i class="las la-trash-alt"></i></button>
-                        </form>
-                    </div>
-                    <br />
-                    <h2>Edit</h2>
-                    <hr />
-                    <br />
-                    <form action="{{route('edit_assignment')}}" method="post" enctype="multipart/form-data">
-                        @csrf
-                        <label for="file">Upload File</label>
-                        <div class="file">
-                            <input class="file-input" type="file" id="file" name="file">
-                        </div>
-
-                        <input type="hidden" name="id" value="{{$data->ass_sub_id}}">
-                        <br />
-
-                        <button id="create-btn" name="create">EDIT</button>
-                    </form>
-                    @endforeach
-                    @endif
-
                 </div>
             </div>
         </div>

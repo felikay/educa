@@ -74,7 +74,7 @@ class CustomAuthController extends Controller
                 return Redirect('Lec_Classes_Select');
             }
             if (Auth::user()->role == 'admin') {
-                return Redirect('admin_home');
+                return Redirect('view_applications');
             }
             if (Auth::user()->role == 'staff') {
                 return Redirect('chatify');
