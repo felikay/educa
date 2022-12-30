@@ -53,4 +53,5 @@ Route::post( 'customRegistration',[CustomAuthController::class, 'customRegistrat
 Route::get('signout', [CustomAuthController::class, 'signOut'])->name('signout');
 
 require_once __DIR__ . '/lec_stud.php';
+require_once __DIR__ . '/admin.php';
 
