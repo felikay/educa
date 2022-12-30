@@ -105,8 +105,8 @@ class Lecturer_Controller extends Controller
     public function LecViewSubmissions($assignment_id)
     {
         $data = DB::table('assiggnment_submissions')
-            ->join('students_fake', 'assiggnment_submissions.student_id', '=', 'students_fake.id')
-            ->select('assiggnment_submissions.ass_sub_id', 'students_fake.id', 'students_fake.name', 'assiggnment_submissions.date')
+            ->join('students', 'assiggnment_submissions.student_id', '=', 'students.id')
+            ->select('assiggnment_submissions.ass_sub_id', 'students.id', 'students.name', 'assiggnment_submissions.date')
             ->where('assignment_id', "=", $assignment_id)->get();
         return view('Lecturer_Student_Module.Lecturer.Classes.view_assignment')->with('data', $data);
     }
@@ -131,18 +131,18 @@ class Lecturer_Controller extends Controller
         $data2 = DB::table('exams')->where('exam_id', '=', $ExamID)->get();
         $check = DB::table('student_results')->where('exam_id', '=', session('exam_id'))->get();
         if (!$check->isEmpty()) {
-            $data4 = DB::table('students_fake')
-                ->join('enrollment', 'enrollment.student_id', '=', 'students_fake.id')
-                ->join('student_results', 'student_results.student_id', '=', 'students_fake.id')
-                ->where('enrollment.unit_id', '=', session('unit_id'))
+            $data4 = DB::table('students')
+                ->join('enrollments', 'enrollments.student_id', '=', 'students.id')
+                ->join('student_results', 'student_results.student_id', '=', 'students.id')
+                ->where('enrollments.unit_id', '=', session('unit_id'))
                 ->where('exam_id', '=', session('exam_id'))
-                ->select('students_fake.id', 'students_fake.name', 'student_results.value')->get();
+                ->select('students.id', 'students.name', 'student_results.value')->get();
             return view('Lecturer_Student_Module.Lecturer.Results.update_results')->with('data', $data)->with('data2', $data2)->with('data4', $data4);
         } else {
-            $data4 = DB::table('students_fake')
-                ->join('enrollment', 'enrollment.student_id', '=', 'students_fake.id')
-                ->where('enrollment.unit_id', '=', session('unit_id'))
-                ->select('students_fake.id', 'students_fake.name')->get();
+            $data4 = DB::table('students')
+                ->join('enrollments', 'enrollments.student_id', '=', 'students.id')
+                ->where('enrollments.unit_id', '=', session('unit_id'))
+                ->select('students.id', 'students.name')->get();
             return view('Lecturer_Student_Module.Lecturer.Results.update_results')->with('data', $data)->with('data2', $data2)->with('data4', $data4);
         }
     }
@@ -226,7 +226,7 @@ class Lecturer_Controller extends Controller
             ->where('student_id', '=', $student_id)
             ->where('exams.unit_code', '=', session('unit_id'))
             ->select('student_results.value', 'exams.maximum', 'exams.weight', 'exams.exam_name', 'student_results.result_id')->get();
-        $data6 = DB::table('students_fake')
+        $data6 = DB::table('students')
             ->where('id', '=', $student_id)->get();
         return view('Lecturer_Student_Module.Lecturer.Results.edit_results')->with('data5', $data5)->with('data6', $data6);
     }
@@ -304,19 +304,19 @@ class Lecturer_Controller extends Controller
         $data['date'] = $date;
         $check = DB::table('attendance')->where('unit_code', '=', session('unit_id'))->where('date', '=', $date)->get();
         if (!$check->isEmpty()) {
-            $data4 = DB::table('students_fake')
-                ->join('enrollment', 'enrollment.student_id', '=', 'students_fake.id')
-                ->join('attendance', 'attendance.student_id', '=', 'students_fake.id')
-                ->where('enrollment.unit_id', '=', session('unit_id'))
+            $data4 = DB::table('students')
+                ->join('enrollments', 'enrollments.student_id', '=', 'students.id')
+                ->join('attendance', 'attendance.student_id', '=', 'students.id')
+                ->where('enrollments.unit_id', '=', session('unit_id'))
                 ->where('date', '=',  $date)
-                ->select('students_fake.id', 'students_fake.name', 'attendance.status')->get();
+                ->select('students.id', 'students.name', 'attendance.status')->get();
                 return view('Lecturer_Student_Module.Lecturer.Attendance.update_attendance')->with('data4', $data4)->with('data', $data);
         } else {
 
-            $data4 = DB::table('students_fake')
-                ->join('enrollment', 'enrollment.student_id', '=', 'students_fake.id')
-                ->where('enrollment.unit_id', '=', session('unit_id'))
-                ->select('students_fake.id', 'students_fake.name')->get();
+            $data4 = DB::table('students')
+                ->join('enrollments', 'enrollments.student_id', '=', 'students.id')
+                ->where('enrollments.unit_id', '=', session('unit_id'))
+                ->select('students.id', 'students.name')->get();
             return view('Lecturer_Student_Module.Lecturer.Attendance.update_attendance')->with('data4', $data4)->with('data', $data);
         }
     }
@@ -324,12 +324,12 @@ class Lecturer_Controller extends Controller
     public function chooseViewDate(Request $request)
     {
         $date = $request->input('date');
-        $data4 = DB::table('students_fake')
-        ->join('enrollment', 'enrollment.student_id', '=', 'students_fake.id')
-        ->join('attendance', 'attendance.student_id', '=', 'students_fake.id')
-        ->where('enrollment_.unit_id', '=', session('unit_id'))
+        $data4 = DB::table('students')
+        ->join('enrollments', 'enrollments.student_id', '=', 'students.id')
+        ->join('attendance', 'attendance.student_id', '=', 'students.id')
+        ->where('enrollments.unit_id', '=', session('unit_id'))
         ->where('date', '=',  $date)
-        ->select('students_fake.id', 'students_fake.name', 'attendance.status')->get();
+        ->select('students.id', 'students.name', 'attendance.status')->get();
         $data2['date']=$date ;
         $data=DB::table('attendance')->where('unit_code','=', session('unit_id'))->select('date')->distinct()->get();
     return view('Lecturer_Student_Module.Lecturer.Attendance.view_class_attendance')->with('data', $data)->with('data4', $data4)->with('data2', $data2);
