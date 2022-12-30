@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Students;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Applications;
 
 class StudentsController extends Controller
 {
@@ -27,6 +28,41 @@ class StudentsController extends Controller
         $students->user_id = $user_id;
 
         $students->save();
-        return response()->json($students);
+        
+        $id = $request->input('id');
+
+        Applications::where('id', '=', $id)->update([
+		'status' => 1 ,
+	]);
+
+    return redirect()->back();
     }
+
+    public function read(){
+
+        $data = Students::all();
+        return view('admin_module.view_students')->with('data',$data);
+    }
+
+
+    public function update(Request $request){
+
+        $id = $request->input('id');
+
+        Applications::where('id', '=', $id)->update([
+		'status' => 2 ,
+	]);
+
+    return redirect()->back();
+    }
+
+
+    public function delete(Request $request){
+        $id = $request->input('id');
+
+        Students::where('id', '=', $id)->delete();
+		
+    return redirect()->back();
+    }
+
 }
