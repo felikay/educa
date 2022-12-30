@@ -9,6 +9,7 @@
             <li><a href="{{route('Stud_Results_Select')}}">Results</a></li>
             <li><a href="{{route('Stud_Attendance_Select')}}">Attendance</a></li>
             <li><a href="{{route('chatify')}}">Messages</a></li>
+            <li><a href="{{route('change_password')}}">Change Password</a></li>
             <li><a href="{{ route('signout') }}">Log Out</a></li>
         </ul>
     </div>

@@ -25,7 +25,7 @@ Route::get('/view_class_attendance', function () {
         ->join('enrollments', 'enrollments.student_id', '=', 'students.id')
         ->where('enrollments.unit_id', '=', session('unit_id'))
         ->select('students.id', 'students.name')->get();
-    $data=DB::table('attendance')->where('unit_code','=', session('unit_id'))->select('date')->distinct()->get();
+    $data = DB::table('attendance')->where('unit_code', '=', session('unit_id'))->select('date')->distinct()->get();
     return view('Lecturer_Student_Module.Lecturer.Attendance.view_class_attendance')->with('data', $data)->with('data4', $data4);
 })->name('view_class_attendance');
 
@@ -112,23 +112,31 @@ Route::get('/Stud_Attendance_Select', function () {
     $data3 = DB::table('units')
         ->join('enrollments', 'units.id', '=', 'enrollments.unit_id')
         ->join('lecturer', 'units.lecturer_id', '=', 'lecturer.id')
-        ->select('units.unit_name', 'units.id', 'lecturer.fname')
+        ->select('units.unit_name', 'units.id', 'lecturer.fname','lecturer.sname','units.capacity')
         ->where('enrollments.student_id', '=', session('student_id'))->get();
     return view('Lecturer_Student_Module.Student.attendance_select')->with('data3', $data3);
 })->name('Stud_Attendance_Select');
 Route::get('/Stud_Classes_Select', function () {
+    $data6 = DB::table('units')->get();
+
     $data3 = DB::table('units')
         ->join('enrollments', 'units.id', '=', 'enrollments.unit_id')
         ->join('lecturer', 'units.lecturer_id', '=', 'lecturer.id')
-        ->select('units.unit_name', 'units.id', 'lecturer.fname')
+        ->select('units.unit_name', 'units.id', 'lecturer.fname','lecturer.sname','units.capacity')
         ->where('enrollments.student_id', '=', session('student_id'))->get();
-    return view('Lecturer_Student_Module.Student.my_classes')->with('data3', $data3);
+    $data4 = DB::table('units')
+        ->join('enrollments', 'units.id', '=', 'enrollments.unit_id')
+        ->join('lecturer', 'units.lecturer_id', '=', 'lecturer.id')
+        ->select('units.unit_name', 'enrollments.id', 'lecturer.fname')
+        ->where('enrollments.student_id', '=', session('student_id'))->get();
+    return view('Lecturer_Student_Module.Student.my_classes')->with('data3', $data3)->with('data6', $data6)->with('data4', $data4);
 })->name('Stud_Classes_Select');
 Route::get('/Stud_Results_Select', function () {
+
     $data3 = DB::table('units')
         ->join('enrollments', 'units.id', '=', 'enrollments.unit_id')
         ->join('lecturer', 'units.lecturer_id', '=', 'lecturer.id')
-        ->select('units.unit_name', 'units.id', 'lecturer.fname')
+        ->select('units.unit_name', 'units.id', 'lecturer.fname','lecturer.sname','units.capacity')
         ->where('enrollments.student_id', '=', session('student_id'))->get();
     return view('Lecturer_Student_Module.Student.results_select')->with('data3', $data3);
 })->name('Stud_Results_Select');
@@ -145,11 +153,11 @@ Route::get('/Stud_View_Results', function () {
         ->join('exams', 'student_results.exam_id', '=', 'exams.exam_id')
         ->where('student_id', '=', session('student_id'))
         ->where('exams.unit_code', '=', session('unit_id'))
-        ->select('student_results.value', 'exams.maximum', 'exams.weight','exams.exam_name')->get();
+        ->select('student_results.value', 'exams.maximum', 'exams.weight', 'exams.exam_name')->get();
     return view('Lecturer_Student_Module.Student.view_result')->with('data5', $data5);
 })->name('Stud_View_Results');
 Route::get('/Stud_View_Attendance', function () {
-    $data=DB::table('attendance')->where('student_id','=',session('student_id'))->where('unit_code', '=', session('unit_id'))->get();
+    $data = DB::table('attendance')->where('student_id', '=', session('student_id'))->where('unit_code', '=', session('unit_id'))->get();
     return view('Lecturer_Student_Module.Student.view_attendance')->with('data', $data);
 })->name('Stud_View_Attendance');
 
@@ -179,6 +187,8 @@ Route::get('/submissionDetails/{assignment_id}', [Lecturer_Controller::class, 's
 Route::post('submit_assignment', [Lecturer_Controller::class, 'submitAssignment'])->name('submit_assignment');
 Route::post('delete_assignment', [Lecturer_Controller::class, 'deleteAssignment'])->name('delete_assignment');
 Route::post('edit_assignment', [Lecturer_Controller::class, 'editAssignment'])->name('edit_assignment');
+Route::post('enroll', [Lecturer_Controller::class, 'Enroll'])->name('enroll');
+Route::post('unenroll', [Lecturer_Controller::class, 'Unenroll'])->name('unenroll');
 
 
 
@@ -186,7 +196,8 @@ Route::post('edit_assignment', [Lecturer_Controller::class, 'editAssignment'])->
 
 Route::get('/viewMatierial/{material_id}', [Lecturer_Controller::class, 'viewMaterials'])->name('viewMatierial');
 Route::get('/viewAssignmentSubmission/{material_id}', [Lecturer_Controller::class, 'viewAssignmentSubmission'])->name('viewAssignmentSubmission');
-
+Route::get('/change_password', [Lecturer_Controller::class, 'changePassword'])->name('change_password');
+Route::post('/change-password', [Lecturer_Controller::class, 'updatePassword'])->name('update-password');
 
 
 
@@ -196,6 +207,6 @@ Route::get('/staff', function () {
     return view('staff_registration');
 })->name('staff');
 Route::get('/staff_members', function () {
-    $data=DB::table("staff")->get();
-    return view('display_staff')->with("data",$data);
+    $data = DB::table("staff")->get();
+    return view('display_staff')->with("data", $data);
 })->name('staff_members');

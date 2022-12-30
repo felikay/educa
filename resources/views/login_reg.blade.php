@@ -21,31 +21,7 @@
 </div>
 @endif
 <div class="container" id="container">
-    <div class="form-container sign-up-container">
-        <form action="{{ route('register.custom') }}" method="POST">
-            @csrf
-            <h1>Create Account</h1>
-            <div class="social-container">
-                <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
-                <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
-            </div>
-            <span>or use your email for registration</span>
-            <input type="text" placeholder="Name" name="name" required />
-            @if ($errors->has('name'))
-            <span class="text-danger">{{ $errors->first('name') }}</span>
-            @endif
-            <input type="email" placeholder="Email" name="email" required />
-            @if ($errors->has('email'))
-            <span class="text-danger">{{ $errors->first('email') }}</span>
-            @endif
-            <input type="password" placeholder="Password" name="password" required />
-            @if ($errors->has('password'))
-            <span class="text-danger">{{ $errors->first('password') }}</span>
-            @endif
-            <button>Sign Up</button>
-        </form>
-    </div>
+  
     <div class="form-container sign-in-container">
         <form action="{{ route('login.custom') }}" method="POST">
             @csrf
@@ -64,7 +40,6 @@
             @if ($errors->has('password'))
             <span class="text-danger">{{ $errors->first('password') }}</span>
             @endif
-            <a href="#">Forgot your password?</a>
             <button>Sign In</button>
         </form>
     </div>
@@ -76,9 +51,9 @@
                 <button class="ghost" id="signIn">Sign In</button>
             </div>
             <div class="overlay-panel overlay-right">
-                <h1>Hello, Friend!</h1>
-                <p>Enter your personal details and start journey with us</p>
-                <button class="ghost" id="signUp">Sign Up</button>
+            <h1>Welcome Back!</h1>
+                <p>To keep connected with us please login with your personal info</p>
+    
             </div>
         </div>
     </div>
