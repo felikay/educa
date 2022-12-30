@@ -46,9 +46,9 @@ Route::get('/send_mail', function () {
    
     $details = [
         'title' => 'Mail from Eduka',
-        'body' => 'Dear Student     ,
+        'body' => 'Dear Applicant,
 
-        On behalf of Eduka, I am pleased to congratulate you on our acceptance into our program. 
+        On behalf of Eduka, We are pleased to congratulate you on our acceptance into our program. 
     
         As you know, Eduka is a school with the most exclusive program in the area and we have accepted only the finest applicants since our founding in 1975.   We were very impressed with your skills and abilities and gladly chose you from our pool of applicants to enroll in our fall program.
         
@@ -63,8 +63,7 @@ Route::get('/send_mail', function () {
     '];
    
     Mail::to('student.laravel01@gmail.com')->send(new \App\Mail\TestMail($details));
-   
-    dd("Email is Sent.");
+    return redirect('/view_applications')->with('message','Application accepted. Email sent to students');
 });
 
 Route::get('dashboard', [CustomAuthController::class, 'dashboard']); 

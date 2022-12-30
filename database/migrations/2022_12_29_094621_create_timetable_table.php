@@ -15,8 +15,9 @@ class CreateTimetableTable extends Migration
     {
         Schema::create('timetable', function (Blueprint $table) {
             $table->id();
+            $table->string('unit');
             $table->string('venue');
-            $table->string('time');
+            $table->datetime('datetime');
             $table->timestamps();
         });
     }

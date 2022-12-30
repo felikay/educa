@@ -563,6 +563,12 @@ https://templatemo.com/tm-569-edu-meeting
                       <button type="submit" id="form-submit" class="button">SUBMIT</button>
                     </fieldset>
                   </div>
+                  <br>
+                  
+                  @if(session('message'))
+                    <div class="alert alert-success">{{session('message')}}</div>
+                  @endif
+
                 </div>
               </form>
             </div>
