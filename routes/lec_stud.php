@@ -169,6 +169,7 @@ Route::post('edit_student_results', [Lecturer_Controller::class, 'editStudentRes
 Route::post('edit_student_results2', [Lecturer_Controller::class, 'editStudentResults2'])->name('edit_student_results2');
 Route::post('choose_date', [Lecturer_Controller::class, 'chooseDate'])->name('choose_date');
 Route::post('choose_view_date', [Lecturer_Controller::class, 'chooseViewDate'])->name('choose_view_date');
+Route::get('view_timetable', [Lecturer_Controller::class, 'viewTimetable'])->name('view_timetable');
 
 
 
@@ -189,7 +190,7 @@ Route::get('/viewAssignmentSubmission/{material_id}', [Lecturer_Controller::clas
 
 
 
-
+//////////////////////////////////////STAFF///////////////////////////////////////////
 Route::post('staffregister', [StaffController::class, 'staff_register'])->name('staffregister');
 Route::get('/staff', function () {
     return view('staff_registration');

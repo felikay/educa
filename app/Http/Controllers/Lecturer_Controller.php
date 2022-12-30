@@ -334,4 +334,10 @@ class Lecturer_Controller extends Controller
         $data=DB::table('attendance')->where('unit_code','=', session('unit_id'))->select('date')->distinct()->get();
     return view('Lecturer_Student_Module.Lecturer.Attendance.view_class_attendance')->with('data', $data)->with('data4', $data4)->with('data2', $data2);
     }
+
+    public function viewTimetable($timetable)
+    {
+        $data = DB::table('timetable')->where('timetable', "=", $timetable)->get();
+        return view('Lecturer_Student_Module.Timetable.view_timetable')->with('data', $data);
+    }
 }
