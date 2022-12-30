@@ -60,7 +60,7 @@ class CustomAuthController extends Controller
     {
         if (Auth::check()) {
             if (Auth::user()->role == 'student') {
-                $id=DB::table('student')->where('user_id','=',Auth::user()->id)->select('id')->get();
+                $id=DB::table('students')->where('user_id','=',Auth::user()->id)->select('id')->get();
                 foreach ($id as $id) {
                     session(['student_id' => $id->id]);  
                 }

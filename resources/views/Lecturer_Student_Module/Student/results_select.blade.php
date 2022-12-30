@@ -33,8 +33,8 @@ $link="#";?>
                             <button type="submit" name="choose_class">
                                 <h2>{{$data3->unit_name}}</h2>
                                 <hr>
-                                <h3>{{$data3->name}}</h3>
-                                <p>70 Students</p>
+                                <h3>{{$data3->fname}} {{$data3->sname}}</h3>
+                                <p>{{$data3->capacity}} Students</p>
                             </button>
                         </div>
                         <input type="hidden" value="{{$data3->id}}" name="unit_id">

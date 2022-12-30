@@ -79,7 +79,7 @@ https://templatemo.com/tm-569-edu-meeting
                           </li>
                           <li class="scroll-to-section"><a href="#courses">Courses</a></li> 
                           <li class="scroll-to-section"><a href="#contact">Contact Us</a></li>
-                          <li class="login_reg"><a href="login_reg">Login/Register</a></li> 
+                          <li class="login_reg"><a href="login_reg">Login</a></li> 
 
                       </ul>        
                       
