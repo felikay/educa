@@ -1,4 +1,5 @@
-<?php $title = "View Staff";
+<?php $title = "View Timetable";
+$link='#';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +16,7 @@
     <link rel="stylesheet" href="{{ URL::asset('css/top_header.css') }}">
 
     <style>
-           table {
+        table {
             width: 90%;
             border-collapse: collapse;
             background-color: white;
@@ -59,37 +60,30 @@
         }
     </style>
 
-    <title>View Staff</title>
+    <title>View Timetable</title>
 </head>
 
 <body>
-    @include("admin_module.sidebar");
+@include("Lecturer_Student_Module.Lecturer.sidebar_main");
     <div class="main-content">
-        @include("admin_module.top_header");
-        <div class="nav">
-            <ul class="snip1168">
-                <li ><a href="{{ route('staff') }}" data-hover="Register Staff">Register Staff</a></li>
-                <li class="current"><a href="#" data-hover="View Staff">View Staff</a></li>
-            </ul>
-        </div>
+        @include("Lecturer_Student_Module.Lecturer.top_header");
 
         <table class="styled-table">
-        <thead>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Department</th>
-        </thead>
-        <tbody>
-            @foreach($data as $data)
-            <tr class="active-row">
-                <td>{{$data->name}}</td>
-                <td>{{$data->email}}</td>
-                <td>{{$data->department}}</td>
-                
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
+            <thead>
+                <th>Unit</th>
+                <th>Venue</th>
+                <th>Date and Time</th>
+            </thead>
+            <tbody>
+                @foreach($data as $data)
+                <tr class="active-row">
+                    <td>{{$data->unit_name}}</td>
+                    <td>{{$data->venue}}</td>
+                    <td>{{$data->datetime}}</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
 
 
 </body>

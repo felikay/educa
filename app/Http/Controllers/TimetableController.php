@@ -24,9 +24,6 @@ class TimetableController extends Controller
         $timetable->venue = $request->input('venue');
         $timetable->datetime = $request->input('datetime');
 
-        $data=array('unit'=>$request->input('unit'), 'venue'=>$request->input('venue'),'datetime'=>$request->input('datetime'));
-        $id = DB::table('timetable')->insertGetId($data);
-
         $timetable->save();
         
         return Redirect()->back();

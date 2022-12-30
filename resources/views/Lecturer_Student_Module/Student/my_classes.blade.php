@@ -29,77 +29,17 @@ $link = "#";
     <div class="main-content">
         @include("Lecturer_Student_Module.Student.top_header");
         <main>
-            <div style="display: flex;flex-direction:row;margin-left:53%;">
-            <a href="#new-exam" style="margin-right: 2%;">
+           
+            <a href="{{ Route('get_enroll')}}" >
                 <button id="create-exam">ENROLL</button>
             </a>
-            <a href="#new-exam2">
-                <button id="create-exam">UNENROLL</button>
-            </a>
-            </div>   
+           
+         
 
-
-            <div class="overlay" id="new-exam">
-                <div class="wrapper">
-
-                    <a id="close" href="#"><i class="las la-times"></i></a>
-
-                    <div class="content">
-                        <div class="container">
-                        <h2>Enroll:</h2>
-                        <br>
-                            <form method="post" action="{{ route('enroll') }}">
-                                @csrf
-                                
-                                <label for="unit_id">Select Unit</label>
-                                <select class="input" id="unit_id" name="unit_id">
-                                    <option value=""></option>
-                                    @foreach ($data6 as $data6)
-                                    
-                                    {{$check=DB::table('enrollments')->where('unit_id','=',$data6->id)->where('student_id','=',session('student_id'))->get();}}
-                                    @if ($check->isEmpty()) 
-                                    
-                                    <option value="{{$data6->id}}">{{$data6->unit_name}}</option>
-                                    @endif
-                                    @endforeach
-                                </select>
-
-                                <button type="submit" id="create-btn" name="submit">ENROLL</button>
-
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
           
-            <div class="overlay" id="new-exam2">
-                <div class="wrapper">
+            
 
-                    <a id="close" href="#"><i class="las la-times"></i></a>
-
-                    <div class="content">
-                        <div class="container">
-                        <h2>Unenroll:</h2>
-                        <br>
-                            <form method="post" action="{{ route('unenroll') }}">
-                                @csrf
-                                <label for="unit_id">Select Unit</label>
-                                <select class="input" id="unit_id" name="unit_id">
-                                    <option value=""></option>
-                                    @foreach ($data4 as $data4)
-                                                                        
-                                    <option value="{{$data4->id}}">{{$data4->unit_name}}</option>
-                                    @endforeach
-                                </select>
-
-                                <button type="submit" id="create-btn" name="submit">UNENROLL</button>
-
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="classes">
                 @foreach($data3 as $data3)
                 <div class="class-1">
@@ -118,7 +58,11 @@ $link = "#";
                     </form>
                 </div>
                 @endforeach
+                
             </div>
+            <a href="{{ Route('get_unenroll')}}">
+                <button id="create-exam2">UNENROLL</button>
+            </a>
         </main>
     </div>
 

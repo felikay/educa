@@ -9,7 +9,7 @@
     <div class="user-wrapper">
 
         <div>
-            <small><?php echo Auth::user()->name; ?></small>
+            <h2><?php echo Auth::user()->name; ?></h2>
         </div>
 
 

@@ -56,6 +56,8 @@ Route::get('/view_allocated_classes', function () {
 })->name('view_allocated_classes');
 
 
+
+
 Route::post('create_lecturer', [AdminController::class, 'CreateLecturer'])->name('create_lecturer');
 Route::post('allocate_classes', [TimetableController::class, 'AllocateClasses'])->name('allocate_classes');
 Route::post('create_admin', [AdminController::class, 'CreateAdmin'])->name('create_admin');
